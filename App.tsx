@@ -10,7 +10,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <StatusBar style="inverted" />
+      <StatusBar style="light" translucent />
      {fontsLoaded ? <Groups /> : <Loading />}
     </ThemeProvider>
   );
