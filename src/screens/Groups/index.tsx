@@ -1,11 +1,19 @@
-import { Text } from "react-native";
-import { Container } from "./styles";
+import { GroupCard } from "@components/GroupCard";
 import { Header } from "@components/Header";
+import { Highlight } from "@components/Highlight";
+import { Container } from "./styles";
 
 export function Groups(){
   return(
     <Container>
-      <Header showBackButton />
+      <Header />
+
+      <Highlight 
+        title="Turmas" 
+        subtitle="Jogue a sua turma"
+      />
+
+      <GroupCard title="Galera do Youtube" />
     </Container>
   )
 }
