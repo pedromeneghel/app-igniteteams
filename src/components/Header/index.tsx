@@ -5,17 +5,17 @@ type Props = {
   showBackButton?: boolean;
 }
 
-export function Header({showBackButton = false}: Props) {
-  return(
+export function Header({ showBackButton = false }: Props) {
+  return (
     <Container>
       {
-        showBackButton && 
+        showBackButton &&
         <BackButton>
           <BackIcon />
         </BackButton>
       }
-      
-      <Logo source={logoImage}/>
+
+      <Logo source={logoImage} />
     </Container>
   )
 }

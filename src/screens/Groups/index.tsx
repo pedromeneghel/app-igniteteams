@@ -7,29 +7,30 @@ import { useState } from "react";
 import { FlatList } from "react-native";
 import { Container } from "./styles";
 
-export function Groups(){
+export function Groups() {
   const [groups, setGroups] = useState(['Galera da Rocket', 'Galera da Efí', 'Vizinhos queridos Reserva'])
 
-  return(
+  return (
     <Container>
       <Header />
 
-      <Highlight 
-        title="Turmas" 
+      <Highlight
+        title="Turmas"
         subtitle="Jogue a sua turma"
       />
 
-      <FlatList 
+      <FlatList
         data={groups}
         keyExtractor={item => item}
-        renderItem={ ({ item }) => (
-            <GroupCard title={item} />
-          )
+        renderItem={({ item }) => (
+          <GroupCard title={item} />
+        )
         }
-        contentContainerStyle={groups.length === 0 && { flex: 1}}
-        ListEmptyComponent={ () =>
+        contentContainerStyle={groups.length === 0 && { flex: 1 }}
+        ListEmptyComponent={() =>
           <ListEmpty message="Que tal cadastrar a primeira turma?" />
         }
+        showsVerticalScrollIndicator={false}
       />
 
       <Button title="Criar nova turma" />
