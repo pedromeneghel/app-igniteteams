@@ -27,7 +27,6 @@ export function NewGroup() {
         Alert.alert('Ops', error.message);
       } else {
         Alert.alert('Ops', 'Algo deu errado, por favor tente novamente mais tarde.')
-        console.log(error);
       }
     }
   }

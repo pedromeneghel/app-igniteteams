@@ -17,7 +17,6 @@ export function Groups() {
     try {
       setGroups(await groupsGetAll());
     } catch (error) {
-      console.log(error);
       Alert.alert('Turmas', 'Não foi possível carregar as turmas.');
     }
   }

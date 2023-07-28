@@ -49,11 +49,9 @@ export function Players() {
       fetchPlayersByTeam();
     } catch (error: any) {
       if(error instanceof AppError) {
-        console.log(error.message);
         Alert.alert('Nova pessoa', error.message);
       } else {
         Alert.alert('Nova pessoa', 'Não foi possível adicionar.');
-        console.log(error);
       }
     }
   }
@@ -64,7 +62,6 @@ export function Players() {
 
       setPlayers(playersByTeam);
     } catch(error) {
-      console.log(error);
       Alert.alert('Pessoas', 'Não foi possível carregar as pessoas do time selecionado.')
     }
   }
@@ -74,7 +71,6 @@ export function Players() {
       await playerRemoveByGroup(playerName, group);
       fetchPlayersByTeam();
     } catch(error) {
-      console.log(error);
       Alert.alert('Remover pessoa', 'Não foi possível remover essa pessoa.');
     }
   }
@@ -84,7 +80,6 @@ export function Players() {
       await groupRemoveByName(group);
       navigation.navigate("groups");
     } catch(error) {
-      console.log(error);
       Alert.alert('Remover grupo', 'Não foi possível remover o grupo.');
     }
   }
