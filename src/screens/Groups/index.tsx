@@ -4,7 +4,7 @@ import { Header } from "@components/Header";
 import { Highlight } from "@components/Highlight";
 import { ListEmpty } from "@components/ListEmpty";
 import { useCallback, useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import { Alert, FlatList } from "react-native";
 import { Container } from "./styles";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { groupsGetAll } from "@storage/group/groupsGetAll";
@@ -18,6 +18,7 @@ export function Groups() {
       setGroups(await groupsGetAll());
     } catch (error) {
       console.log(error);
+      Alert.alert('Turmas', 'Não foi possível carregar as turmas.');
     }
   }
 
