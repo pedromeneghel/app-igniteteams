@@ -19,9 +19,9 @@ export function Groups() {
     setIsLoading(true);
     try {
       setGroups(await groupsGetAll());
-      setIsLoading(false);
     } catch (error) {
       Alert.alert('Turmas', 'Não foi possível carregar as turmas.');
+    } finally {
       setIsLoading(false);
     }
   }
