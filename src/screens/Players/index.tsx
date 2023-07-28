@@ -16,6 +16,7 @@ import { Alert, FlatList, TextInput } from "react-native";
 import { Container, Form, HeaderList, NumberOfPlayers } from "./styles";
 import { playerRemoveByGroup } from "@storage/player/playerRemoveByGroup";
 import { groupRemoveByName } from "@storage/group/groupRemoveByName";
+import { Loading } from "@components/Loading";
 
 type RouteParams = {
   group: string;
@@ -24,6 +25,7 @@ type RouteParams = {
 export function Players() {
   const route = useRoute();
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(true);
   const { group } = route.params as RouteParams;
   const [team, setTeam] = useState('Time A');
   const [newPlayerName, setNewPlayerName] = useState('');
@@ -31,7 +33,7 @@ export function Players() {
   const newPlayerNameInputRef = useRef<TextInput>(null);
 
   async function handleAddPlayer() {
-    if(newPlayerName.trim().length <= 2) {
+    if (newPlayerName.trim().length <= 2) {
       return Alert.alert('Nova pessoa', 'Informe o nome da pessoa para adicionar.');
     }
 
@@ -42,13 +44,13 @@ export function Players() {
 
     try {
       await playerAddByGroup(newPlayer, group);
-      
+
       newPlayerNameInputRef.current?.blur();
       setNewPlayerName('');
-      
+
       fetchPlayersByTeam();
     } catch (error: any) {
-      if(error instanceof AppError) {
+      if (error instanceof AppError) {
         Alert.alert('Nova pessoa', error.message);
       } else {
         Alert.alert('Nova pessoa', 'Não foi possível adicionar.');
@@ -57,12 +59,16 @@ export function Players() {
   }
 
   async function fetchPlayersByTeam() {
+    setIsLoading(true);
+
     try {
       const playersByTeam = await playersGetByGroupAndTeam(group, team);
 
       setPlayers(playersByTeam);
-    } catch(error) {
+      setIsLoading(false);
+    } catch (error) {
       Alert.alert('Pessoas', 'Não foi possível carregar as pessoas do time selecionado.')
+      setIsLoading(false);
     }
   }
 
@@ -70,7 +76,7 @@ export function Players() {
     try {
       await playerRemoveByGroup(playerName, group);
       fetchPlayersByTeam();
-    } catch(error) {
+    } catch (error) {
       Alert.alert('Remover pessoa', 'Não foi possível remover essa pessoa.');
     }
   }
@@ -79,7 +85,7 @@ export function Players() {
     try {
       await groupRemoveByName(group);
       navigation.navigate("groups");
-    } catch(error) {
+    } catch (error) {
       Alert.alert('Remover grupo', 'Não foi possível remover o grupo.');
     }
   }
@@ -142,24 +148,29 @@ export function Players() {
         <NumberOfPlayers>{players.length}</NumberOfPlayers>
       </HeaderList>
 
-      <FlatList
-        data={players}
-        keyExtractor={item => item.name}
-        renderItem={({ item }) => (
-          <PlayerCard
-            name={item.name}
-            onRemove={() => handlePlayerRemove(item.name)}
+      {
+        isLoading
+          ? <Loading />
+          :
+          <FlatList
+            data={players}
+            keyExtractor={item => item.name}
+            renderItem={({ item }) => (
+              <PlayerCard
+                name={item.name}
+                onRemove={() => handlePlayerRemove(item.name)}
+              />
+            )}
+            ListEmptyComponent={() =>
+              <ListEmpty message="Não há pessoas nesse time." />
+            }
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={[
+              { paddingBottom: 100 },
+              players.length === 0 && { flex: 1 }
+            ]}
           />
-        )}
-        ListEmptyComponent={() =>
-          <ListEmpty message="Não há pessoas nesse time." />
-        }
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={[
-          { paddingBottom: 100 },
-          players.length === 0 && { flex: 1 }
-        ]}
-      />
+      }
 
       <Button
         title="Remover turma"
