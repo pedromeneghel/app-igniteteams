@@ -7,7 +7,7 @@ import { Input } from "@components/Input";
 import { ListEmpty } from "@components/ListEmpty";
 import { PlayerCard } from "@components/PlayerCard";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { PlayerStorageDTO } from "@storage/player/PlayerStorareDTO";
+import { PlayerStorageDTO } from "@storage/player/PlayerStorageDTO";
 import { playerAddByGroup } from "@storage/player/playerAddByGroup";
 import { playersGetByGroupAndTeam } from "@storage/player/playersGetByGroupAndTeam";
 import { AppError } from "@utils/AppError";
