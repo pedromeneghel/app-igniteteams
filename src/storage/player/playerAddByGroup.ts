@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { GROUP_COLLECTION, PLAYER_COLLECTION } from '@storage/storageConfig';
+import { PLAYER_COLLECTION } from '@storage/storageConfig';
 import { AppError } from '@utils/AppError';
 import { PlayerStorageDTO } from './PlayerStorareDTO';
 import { playersGetByGroup } from './playersGetByGroup';
@@ -17,6 +17,6 @@ export async function playerAddByGroup(newPlayer: PlayerStorageDTO, group: strin
 
     await AsyncStorage.setItem(`${PLAYER_COLLECTION}-${group}`, storage);
   } catch (error) {
-    throw new AppError('');
+    throw error;
   }
 }
