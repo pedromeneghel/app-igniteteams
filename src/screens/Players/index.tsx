@@ -8,8 +8,12 @@ import { ListEmpty } from "@components/ListEmpty";
 import { PlayerCard } from "@components/PlayerCard";
 import { useRoute } from "@react-navigation/native";
 import { useState } from "react";
-import { FlatList } from "react-native";
+import { Alert, FlatList } from "react-native";
 import { Container, Form, HeaderList, NumberOfPlayers } from "./styles";
+import { PlayerStorageDTO } from "@storage/player/PlayerStorareDTO";
+import { AppError } from "@utils/AppError";
+import { playerAddByGroup } from "@storage/player/playerAddByGroup";
+import { playersGetByGroup } from "@storage/player/playersGetByGroup";
 
 type RouteParams = {
   group: string;
@@ -19,7 +23,33 @@ export function Players() {
   const route = useRoute();
   const { group } = route.params as RouteParams;
   const [team, setTeam] = useState('Time A');
+  const [newPlayerName, setNewPlayerName] = useState('');
   const [players, setPlayers] = useState([]);
+
+  async function handleAddPlayer() {
+    if(newPlayerName.trim().length <= 2) {
+      return Alert.alert('Nova pessoa', 'Informe o nome da pessoa para adicionar.');
+    }
+
+    const newPlayer: PlayerStorageDTO = {
+      name: newPlayerName,
+      team
+    }
+
+    try {
+      await playerAddByGroup(newPlayer, group);
+      const players = await playersGetByGroup(group);
+      console.log(players);
+    } catch (error: any) {
+      if(error instanceof AppError) {
+        console.log(error.message);
+        Alert.alert('Nova pessoa', error.message);
+      } else {
+        Alert.alert('Nova pessoa', 'Não foi possível adicionar.');
+        console.log(error);
+      }
+    }
+  }
 
   return (
     <Container>
@@ -34,10 +64,12 @@ export function Players() {
         <Input
           placeholder="Nome da pessoa"
           autoCorrect={false}
+          onChangeText={setNewPlayerName}
         />
 
         <ButtonIcon
           icon="add"
+          onPress={handleAddPlayer}
         />
       </Form>
 
