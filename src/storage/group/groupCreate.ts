@@ -8,7 +8,7 @@ export async function groupCreate(newGroup: string) {
     const storedGroups = await groupsGetAll();
 
     if (storedGroups.includes(newGroup)) {
-      throw new AppError('Já existe um grupo cadastrado com esse nome.');
+      throw new AppError('Já existe uma turma cadastrado com esse nome.');
     }
 
     const storage = JSON.stringify([...storedGroups, newGroup])

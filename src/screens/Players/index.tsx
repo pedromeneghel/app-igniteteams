@@ -86,14 +86,14 @@ export function Players() {
       await groupRemoveByName(group);
       navigation.navigate("groups");
     } catch (error) {
-      Alert.alert('Remover grupo', 'Não foi possível remover o grupo.');
+      Alert.alert('Remover turma', 'Não foi possível remover o turma.');
     }
   }
 
   function handleGroupRemove() {
     Alert.alert(
       'Remove',
-      `Deseja realmente remover o grupo ${group}?`,
+      `Deseja realmente remover a turma ${group}?`,
       [
         { text: 'Não', style: 'cancel' },
         { text: 'Sim', onPress: () => groupRemove() }
